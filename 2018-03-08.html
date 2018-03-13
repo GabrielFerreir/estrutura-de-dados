@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+
+    const exp = prompt('Digite a expressão');
+    let guard = []; // Variavel que guarda os simbolos de momento
+    let error = {
+        error: false,
+        triggerError: () => {
+            error.error = true;
+        }
+    };
+    let arrayExp = buildArray(exp);
+    analyze();
+    analyzeResult();
+
+
+    function buildArray(exp) {
+        let res = [];
+        for (let i = 0; i < exp.length; i++) {
+            if (exp[i] === '{' || exp[i] === '}' || exp[i] === '[' || exp[i] === ']' || exp[i] === '(' || exp[i] === ')') {
+                res.push(exp.charAt(i));
+            }
+        }
+        return res;
+    }
+
+    function lastItem(array) {
+        // Faço isso porque o algoritimo é em pilha
+        for (let i = 0; i < array.length; i++) {
+            if (i === array.length - 1) {
+                return array[i];
+            }
+        }
+    }
+
+    function isExpOpen(exp) {
+        if (exp === '{' || exp === '[' || exp === '(')
+            return true;
+        return false;
+    }
+
+    function returnOpener(exp) {
+        let inverse;
+        switch (exp) {
+            case '}':
+                inverse = '{';
+                break;
+            case ']':
+                inverse = '[';
+                break;
+            case ')':
+                inverse = '(';
+                break;
+            default:
+                throw new Error(`Erro ao analizar ${exp}`);
+        }
+        return inverse;
+    }
+
+    function analyze() {
+        for (var i = 0; i < arrayExp.length; i++) {
+            if (isExpOpen(arrayExp[i])) {
+                guard.push(arrayExp[i]);
+            } else {
+                if (guard.length) {
+                    if (lastItem(guard) === returnOpener(arrayExp[i])) {
+                        guard.pop();
+                    } else {
+                        error.triggerError();
+                    }
+                } else {
+                    error.triggerError();
+                }
+            }
+        }
+    }
+
+    function analyzeResult() {
+        if (!guard.length && !error.error) {
+            console.log('Expressão valida');
+        } else {
+            alert('Expressão invalida');
+        }
+    }
+</script>
+
+</html>
