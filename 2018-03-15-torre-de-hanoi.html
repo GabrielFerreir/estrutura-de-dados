@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Torre de hanoi</title>
+</head>
+<body>
+</body>
+<script>
+    function hanoi(numero, origem, destino, trabalho) {
+        if (numero && !isNaN(numero)) {
+            hanoi(numero - 1, origem, trabalho, destino);
+            console.log(`${origem} > ${destino}`);
+            hanoi(numero - 1, trabalho, destino, origem);
+        }
+    }
+        const n = prompt('Digite o numero de torres');
+        hanoi(n, 1, 3, 2);
+        console.log('Finalizado');
+</script>
+</html>
